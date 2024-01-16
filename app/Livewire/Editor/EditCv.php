@@ -74,8 +74,9 @@ class EditCV extends Component {
 
 
 		//if ($this->profile_picture) {
-		if (request('profile_picture') && request('profile_picture')->isValid()) {
+		if (request('profile_picture')) {
 			$path = $this->profile_picture->store('public/photos');
+			Log::log('info', 'path: ' . $path);
 			if ($path) {
 				$old_path = CV::where('id', $id)->first()->poza;
 				if ($old_path) {
