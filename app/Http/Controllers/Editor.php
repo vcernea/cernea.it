@@ -40,11 +40,10 @@ class Editor extends Controller {
 		$cv['limbi_cunoscute']         = json_decode($cv['limbi_cunoscute'], true);
 
 		$html = view('editor.pdf')->with(['cv' => $cv, 'id' => $id, 'download' => true])->render();
-
 		$pdf = new Pdf($html);
 		if (!$pdf->send()) {
 			$error = $pdf->getError();
-			return redirect()->back()->with('error', 'A apărut o eroare la generarea CV-ului. Vă rugăm să încercați din nou.');
+			return redirect()->back()->with('error', 'A apărut o eroare la generarea CV-ului. Vă rugăm să încercați din nou: '. $error);
 		}
 		return $pdf->send();
 	}
