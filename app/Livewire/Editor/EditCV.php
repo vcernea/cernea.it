@@ -12,6 +12,7 @@ use App\Models\CV;
 class EditCV extends Component {
     use WithFileUploads;
 
+	public $id;
 	public $email;
 	public $fullName;
 	public $phone;
@@ -42,14 +43,14 @@ class EditCV extends Component {
 		$this->fullName         = $cv->nume;
 		$this->phone            = $cv->telefon;
 		$this->self_description = $cv->descriere;
-		$this->profile_picture  = $cv->poza;
+		$this->profile_picture  = Storage::url($cv->poza);
 		$this->degrees          = json_decode($cv->experienta_educationala, true);
 		$this->skills           = json_decode($cv->competente, true);
 		$this->experience       = json_decode($cv->experienta_profesionala, true);
 		$this->languages        = json_decode($cv->limbi_cunoscute, true);
 	}
 
-	public function save() {
+	public function save($id) {
 		$this->validate([
 			'email'            => 'required|email',
 			'fullName'         => 'required',
@@ -60,7 +61,7 @@ class EditCV extends Component {
 			'languages'        => 'present|array|min:1',
 		]);
 
-		CV::where('id', 1)->updateOrCreate([
+		CV::where('id', $id)->update([
 			'email'                   => $this->email,
 			'nume'                    => $this->fullName,
 			'telefon'                 => $this->phone,
@@ -71,16 +72,19 @@ class EditCV extends Component {
 			'limbi_cunoscute'         => json_encode($this->languages),
 		]);
 
-		if ($this->profile_picture) {
+
+		//if ($this->profile_picture) {
+		if (request('profile_picture') && request('profile_picture')->isValid()) {
 			$path = $this->profile_picture->store('public/photos');
 			if ($path) {
-				$old_path = CV::where('id', 1)->first()->poza;
+				$old_path = CV::where('id', $id)->first()->poza;
 				if ($old_path) {
 					@unlink(storage_path('app/' . $old_path));
 				}
-				CV::where('id', 1)->update([
+				CV::where('id', $id)->update([
 					'poza' => $path,
 				]);
+
 				$this->profile_picture = $path;
 			}
 		}

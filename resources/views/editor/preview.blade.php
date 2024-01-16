@@ -1,15 +1,17 @@
 @extends('layouts/blankLayout')@section('title', 'Previzualizare CV')
 @section('content')
-	<div class="container mt-5 d-flex justify-content-between">
-		<a href="{{ route('home') }}" class="btn btn-outline-primary">
-			<i class="bx bx-home"></i>
-			Acasă
-		</a>
-		<a href="{{ route('cv.download', ['id' => $cv['id']]) }}" class="btn btn-outline-primary">
-			<i class="bx bx-download"></i>
-			Download
-		</a>
-	</div>
+	@if(!$download)
+		<div class="container mt-5 d-flex justify-content-between">
+			<a href="{{ route('home') }}" class="btn btn-outline-primary">
+				<i class="bx bx-home"></i>
+				Acasă
+			</a>
+			<a href="{{ route('cv.download', ['id' => $cv['id']]) }}" class="btn btn-outline-primary">
+				<i class="bx bx-download"></i>
+				Download
+			</a>
+		</div>
+	@endif
 	<div class="container mt-5">
 		<header class="text-center">
 			<h1>{{ $cv['nume'] }}</h1>
@@ -18,20 +20,27 @@
 		<!-- Personal Information -->
 		<section class="mt-4">
 			<h2>Informații personale</h2>
-			<ul class="list-group">
-				<li class="list-group-item"><strong>Email:</strong> {{ $cv['email'] }}</li>
-				<li class="list-group-item"><strong>Phone:</strong> {{ $cv['telefon'] }}</li>
-				<li class="list-group-item"><strong>Descriere personală:</strong> {{ $cv['descriere'] }}</li>
-			</ul>
+			<div class="row">
+				<div class="col-md-9">
+					<ul class="list-group">
+						<li class="list-group-item"><strong>Email:</strong> {{ $cv['email'] }}</li>
+						<li class="list-group-item"><strong>Phone:</strong> {{ $cv['telefon'] }}</li>
+						<li class="list-group-item"><strong>Descriere personală:</strong> {{ $cv['descriere'] }}</li>
+					</ul>
+				</div>
+				<div class="col-md-3">
+					<img src="{{ \Illuminate\Support\Facades\Storage::url($cv['poza']) }}" alt="Profile picture" class="img-fluid">
+				</div>
+			</div>
 		</section>
 		<!-- Education -->
 		<section class="mt-4">
 			<h2>Educație și formare profesională</h2>
 			@foreach($cv['experienta_educationala'] as $exp)
 				<div class="mb-3">
-					<h5>Instituție: {{ $exp['institutie'] }}</h5>
-					<p>Nivel: {{ $exp['degree'] }}</p>
-					<p>Descriere: {{ $exp['descriere'] }}</p>
+					<h5 class="mb-1">Instituție: {{ $exp['institutie'] }}</h5>
+					<p class="mb-0">Nivel: {{ $exp['degree'] }}</p>
+					<p class="mb-0">Descriere: {{ $exp['descriere'] }}</p>
 				</div>
 			@endforeach
 		</section>
@@ -40,9 +49,9 @@
 			<h2>Experiență profesională</h2>
 			@foreach($cv['experienta_profesionala'] as $exp)
 				<div class="mb-3">
-					<h5>Poziție: {{ $exp['jobTitle'] }}</h5>
-					<p>Companie: {{ $exp['company'] }}</p>
-					<p>Descriere: {{ $exp['workDescription'] }}</p>
+					<h5 class="mb-1">Poziție: {{ $exp['jobTitle'] }}</h5>
+					<p class="mb-0">Companie: {{ $exp['company'] }}</p>
+					<p class="mb-0">Descriere: {{ $exp['workDescription'] }}</p>
 				</div>
 			@endforeach
 		</section>
@@ -50,7 +59,7 @@
 			<h2>Competențe</h2>
 			<div class="d-flex">
 				@foreach($cv['competente'] as $skill)
-					<div class="mb-3 alert alert-info">
+					<div class="mb-2 mx-2 alert alert-info">
 						<h5>Competență: {{ $skill['skill'] }}</h5>
 						<p class="m-0">Descriere: {{ $skill['skillDescription'] }}</p>
 					</div>
@@ -61,7 +70,7 @@
 			<h2>Limbi cunoscute</h2>
 			<div class="d-flex">
 				@foreach($cv['limbi_cunoscute'] as $language)
-					<div class="mb-3 alert alert-primary w-auto">
+					<div class="mb-2 mx-2 alert alert-primary w-auto">
 						<h5>Limba: {{ $language['language'] }}</h5>
 						<p class="m-0">Nivel: {{ $language['languageLevel'] }}</p>
 					</div>

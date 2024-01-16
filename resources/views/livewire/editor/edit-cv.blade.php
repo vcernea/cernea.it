@@ -1,5 +1,5 @@
 <div class="container flex-grow-1 container-p-y">
-	<form action="{{ route('cv.submit', ['id' => $id]) }}" method="post" wire:submit="save">
+	<form action="{{ route('cv.submit', ['id' => $id]) }}" method="post" wire:submit="save({{ $id }})">
 		@csrf
 		<div class="row">
 			<h2 class="mb-3 col-12">Informații personale</h2>
@@ -45,8 +45,8 @@
 				</div>
 			</div>
 			<div class="mb-3 col-sm-6">
-				<img src="{{ Storage::url($profile_picture) }}" style="max-height: 100px;">
-				<a class="btn btn-primary" href="{{ Storage::url($profile_picture) }}" target="_blank">Vezi imaginea</a>
+				<img src="{{ $profile_picture }}" style="max-height: 100px;">
+				<a class="btn btn-primary" href="{{ $profile_picture }}" target="_blank">Vezi imaginea</a>
 			</div>
 			<div class="col-12">
 				<hr>
