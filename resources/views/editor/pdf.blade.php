@@ -17,7 +17,7 @@
 					</ul>
 				</div>
 				<div class="col-md-3">
-					<img src="{{ \Illuminate\Support\Facades\Storage::url($cv['poza']) }}" alt="Profile picture" class="img-fluid">
+					<img src="{{ $cv['poza'] }}" alt="Profile picture" class="img-fluid">
 				</div>
 			</div>
 		</section>
