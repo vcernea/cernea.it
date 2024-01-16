@@ -73,10 +73,8 @@ class EditCV extends Component {
 		]);
 
 
-		//if ($this->profile_picture) {
-		if (request('profile_picture')) {
+		if ($this->profile_picture instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
 			$path = $this->profile_picture->store('public/photos');
-			Log::log('info', 'path: ' . $path);
 			if ($path) {
 				$old_path = CV::where('id', $id)->first()->poza;
 				if ($old_path) {
