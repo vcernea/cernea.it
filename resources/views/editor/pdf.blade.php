@@ -8,11 +8,18 @@
 		<!-- Personal Information -->
 		<section class="mt-4">
 			<h2>Informații personale</h2>
-			<ul class="list-group">
-				<li class="list-group-item"><strong>Email:</strong> {{ $cv['email'] }}</li>
-				<li class="list-group-item"><strong>Phone:</strong> {{ $cv['telefon'] }}</li>
-				<li class="list-group-item"><strong>Descriere personală:</strong> {{ $cv['descriere'] }}</li>
-			</ul>
+			<div class="row">
+				<div class="col-md-9">
+					<ul class="list-group">
+						<li class="list-group-item"><strong>Email:</strong> {{ $cv['email'] }}</li>
+						<li class="list-group-item"><strong>Phone:</strong> {{ $cv['telefon'] }}</li>
+						<li class="list-group-item"><strong>Descriere personală:</strong> {{ $cv['descriere'] }}</li>
+					</ul>
+				</div>
+				<div class="col-md-3">
+					<img src="{{ \Illuminate\Support\Facades\Storage::url($cv['poza']) }}" alt="Profile picture" class="img-fluid">
+				</div>
+			</div>
 		</section>
 		<!-- Education -->
 		<section class="mt-4">
